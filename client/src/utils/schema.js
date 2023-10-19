@@ -10,7 +10,6 @@ export const registerSchema = z.object({
     .string()
     .min(6, { message: "password must be at least 6 character(s)" })
     .max(16, { message: "max 16 character(s)" }),
-  is_status: z.boolean()
   // roleId: z.number(),
 });
 
