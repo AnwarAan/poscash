@@ -16,7 +16,7 @@ const sequelize = new Sequelize(
 export const connetionMysql = async () => {
   try {
     sequelize.authenticate()
-    sequelize.sync()
+    // sequelize.sync()
     // sequelize.sync({ force: true })
     // sequelize.sync({ alter: true });
     console.log("Success Connect Mysql DB")

@@ -10,16 +10,17 @@ export const registerSchema = z.object({
     .string()
     .min(6, { message: "password must be at least 6 character(s)" })
     .max(16, { message: "max 16 character(s)" }),
+  is_status: z.boolean()
   // roleId: z.number(),
 });
 
 export const editSchema = z.object({
   fullname: z.string().min(2, { message: "Name must be at least 2 character(s)" }),
   email: z.string().min(2, { message: "This field has to be filled." }).email("This is not a valid email."),
-  password: z
-    .string()
-    .min(8, { message: "password must be at least 8 character(s)" })
-    .max(16, { message: "max 16 character(s)" }),
+  // password: z
+  //   .string()
+  //   .min(8, { message: "password must be at least 8 character(s)" })
+  //   .max(16, { message: "max 16 character(s)" }),
   // roleId: z.number(),
   phone_number: z.string().min(8, { message: "Phone Number must be at least 8 character(s)" }),
 });

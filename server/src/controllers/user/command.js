@@ -35,6 +35,7 @@ export default class CommandUser {
     if (checkUser === null) throw new AppError("User not Found", 404);
     const dataUser = checkUser.dataValues;
     const checkPwd = await bcrypt.compareHash(password, checkUser.dataValues.password);
+    if (dataUser.is_status === "disabled") throw new AppError("You need to enable cashier first", 401)
     if (!checkPwd) throw new AppError("Password not Match", 401);
     const data = { id: dataUser.id };
     const key = jwt.sign(data, process.env.SECRET_KEY, { expiresIn: "1d" });
@@ -86,7 +87,7 @@ export default class CommandUser {
 
     // console.log(getUser.dataValues, "this is the value");
     const dataUser = getUser.dataValues;
-    const { fullname, email, password, phone_number, birthdate } = payload;
+    const { fullname, email, is_status, phone_number, birthdate } = payload;
     console.log(dataUser.fullname);
     let updateData = {};
     if (dataUser.fullname !== fullname) {
@@ -100,6 +101,8 @@ export default class CommandUser {
     }
     if (dataUser.birthdate !== birthdate) {
       updateData.birthdate = birthdate;
+    } if (dataUser.is_status !== is_status) {
+      updateData.is_status = is_status;
     }
 
     console.log(updateData);

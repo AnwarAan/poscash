@@ -10,6 +10,7 @@ const User = sequelize.define("user", {
   birthdate: { type: DataTypes.STRING, defaultValue: "" },
   image_url: { type: DataTypes.STRING, defaultValue: "" },
   is_active: { type: DataTypes.BOOLEAN, defaultValue: false },
+  is_status: { type: DataTypes.TEXT, defaultValue: "disabled"}
 });
 
 export default User;

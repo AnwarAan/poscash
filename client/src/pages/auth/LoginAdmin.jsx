@@ -20,7 +20,7 @@ import { useToast } from "@/components/ui/use-toast";
 const LoginAdmin = () => {
   const navigate = useNavigate();
   const { loginAdmin } = useContext(AuthContext);
-  const toast = useToast();
+  const { toast } = useToast();
   const initForm = {
     fullname: "",
     password: "",

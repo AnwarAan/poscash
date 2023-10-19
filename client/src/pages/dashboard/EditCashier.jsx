@@ -4,7 +4,7 @@ import { Form, FormControl, FormLabel, FormItem, FormField } from "@/components/
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { FormMessage } from "@/components/ui/form";
-import { Loader2, ArrowLeft, EyeIcon, EyeOff } from "lucide-react";
+import { Loader2, ArrowLeft, EyeIcon, EyeOff, Check , X} from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { editSchema, registerSchema } from "@/utils/schema";
@@ -17,10 +17,13 @@ import { AuthContext } from "@/components/auth/AuthContext";
 const EditCashier = ({ cashierId }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [showPassword, setShowPassword] = useState(false);
-
+  const [showPassword, setShowPassword] = useState("false");
   const dataProps = location.state;
   console.log(dataProps);
+  const [checked, setChecked] = useState(
+    dataProps.cashier.is_status ? dataProps.cashier.is_status : "enabled"
+  );
+
   cashierId = dataProps.cashier.id;
   // console.log(cashierId);
 
@@ -37,7 +40,6 @@ const EditCashier = ({ cashierId }) => {
   const editForm = {
     fullname: dataProps.cashier.fullname ? dataProps.cashier.fullname : "",
     email: dataProps.cashier.email ? dataProps.cashier.email : "",
-    password: dataProps.cashier.password ? "" : "",
     phone_number: dataProps.cashier.phone_number ? dataProps.cashier.phone_number : "",
     birthdate: dataProps.cashier.birthdate ? dataProps.cashier.birthdate : "",
     // roleId: 2,
@@ -57,6 +59,7 @@ const EditCashier = ({ cashierId }) => {
   const onSubmit = (values) => {
     mutation.mutate({
       ...values,
+      is_status: checked
     });
   };
 
@@ -108,20 +111,21 @@ const EditCashier = ({ cashierId }) => {
 
                 <FormField
                   control={form.control}
-                  name="password"
+                  name="is_status"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-3">
-                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <FormLabel htmlFor="is_status">Disable Cashier</FormLabel>
                       <FormControl>
                         <FormItem className="flex relative">
                           <Input
-                            type={showPassword ? "text" : "password"}
-                            id="password"
-                            placeholder="******"
+                            type={checked ? "" : "checked"}
+                            id="is_active"
                             {...field}
                           />
-                          <FormLabel className="absolute right-0 mr-2" onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? <EyeIcon /> : <EyeOff />}
+                          <FormLabel className="absolute right-0 mr-2" 
+                            onClick={() => setChecked(checked === "enabled" ? "disabled" : "enabled")}               
+                            >
+                            {checked === "disabled" ? <X/> : <Check />}
                           </FormLabel>
                         </FormItem>
                       </FormControl>
@@ -148,15 +152,16 @@ const EditCashier = ({ cashierId }) => {
                   control={form.control}
                   name="birthdate"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col gap-3">
+                    <FormItem className="flex flex-col gap-3 flex">
                       <FormLabel htmlFor="birthdate">Birth Date</FormLabel>
                       <FormControl>
                         <Input type="date" id="birthdate" placeholder="2023/01/01" {...field} />
+                        
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                />      
 
                 <div className="flex">
                   <Button

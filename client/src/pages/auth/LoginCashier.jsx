@@ -15,9 +15,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "@/components/auth/AuthContext";
+import { useToast } from "@/components/ui/use-toast";
 
 const LoginCashier = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { loginCashier } = useContext(AuthContext);
   const initForm = {
     fullname: "",
@@ -43,8 +45,19 @@ const LoginCashier = () => {
   useEffect(() => {
     if (form.formState.isSubmitSuccessful) {
       form.reset(initForm);
+    } if (mutation.isSuccess) {
+      toast({
+        title: "Login Success",
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    } else if (mutation.isError) {
+      toast({
+        title: "Login Failed",
+      });
     }
-  }, [form]);
+  }, [form, mutation.isSuccess, mutation.isError]);
 
   return (
     <div className="w-full h-screen flex items-center justify-center">

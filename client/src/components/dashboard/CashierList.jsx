@@ -15,10 +15,10 @@ const CashierList = ({ cashier, index }) => {
   //   await deleteAPI(`user/${data.cashierId}`, data)
   //   location.reload()
   // }
-
+  // console.log(ddta);
   const mutation = useMutation({
     mutationFn: () => {
-      const cashierId = data.cashierId
+      const cashierId = data.cashier.id
       return deleteAPI(`user/${cashierId}`, data)
     },
     onSuccess: () => {
